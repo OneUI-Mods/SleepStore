@@ -42,7 +42,10 @@ public final class MainActivity extends AppCompatActivity {
         text(integration,getString(frameworkLoaded()?R.string.framework_active:R.string.framework_inactive),16,true,6);
         text(integration,getString(R.string.framework_hint),14,false,12);
         text(integration,getString(R.string.setup_body),16,false,12);
-        store(integration,"com.android.vending",R.string.play_store);store(integration,"com.sec.android.app.samsungapps",R.string.galaxy_store);
+        for(int i=0;i<Targets.PACKAGES.length;i++) {
+            String installed=Targets.installedPackage(this,i);
+            if(installed!=null)store(integration,installed,Targets.LABELS[i]);
+        }
         text(integration,getString(R.string.scope_notice),14,false,0);
         LinearLayout about=card();text(about,getString(R.string.about_title),20,true,8);text(about,getString(R.string.version,BuildConfig.VERSION_NAME),14,false,8);
         button(about,getString(R.string.language),this::language);
@@ -56,14 +59,17 @@ public final class MainActivity extends AppCompatActivity {
         LinearLayout inner=new LinearLayout(this);inner.setOrientation(LinearLayout.VERTICAL);inner.setPadding(dp(20),dp(20),dp(20),dp(20));card.addView(inner);return inner;
     }
     private void text(LinearLayout parent,String value,int size,boolean title,int bottom){
-        TextView text=new TextView(this);text.setText(value);text.setTextSize(size);text.setLineSpacing(dp(3),1);
+        TextView text=new TextView(this);text.setText(value);androidx.core.widget.TextViewCompat.setTextAppearance(text,title ? com.google.android.material.R.style.TextAppearance_Material3_TitleLarge : size >= 16 ? com.google.android.material.R.style.TextAppearance_Material3_BodyLarge : com.google.android.material.R.style.TextAppearance_Material3_BodyMedium);
         text.setTextColor(com.google.android.material.color.MaterialColors.getColor(this,com.google.android.material.R.attr.colorOnSurface,getClass().getName()));
-        if(title)text.setTypeface(android.graphics.Typeface.create("sans-serif-medium",android.graphics.Typeface.NORMAL));
         LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);p.bottomMargin=dp(bottom);parent.addView(text,p);
     }
     private void button(LinearLayout parent,String label,Runnable action){
         MaterialButton b=new MaterialButton(this,null,com.google.android.material.R.attr.materialButtonOutlinedStyle);
         b.setText(label);b.setMinHeight(dp(48));b.setOnClickListener(v->action.run());
+        int primary=com.google.android.material.color.MaterialColors.getColor(this,com.google.android.material.R.attr.colorPrimary,getClass().getName());
+        int background=com.google.android.material.color.MaterialColors.getColor(this,com.google.android.material.R.attr.colorSurfaceContainer,getClass().getName());
+        int foreground=com.google.android.material.color.MaterialColors.getColor(this,com.google.android.material.R.attr.colorOnSurface,getClass().getName());
+        b.setTextColor(androidx.core.graphics.ColorUtils.calculateContrast(primary|0xff000000,background|0xff000000)>=4.5 ? primary : foreground);
         LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);p.bottomMargin=dp(8);parent.addView(b,p);
     }
     private void store(LinearLayout parent,String pkg,int name){

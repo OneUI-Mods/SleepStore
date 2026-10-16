@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import de.robv.android.xposed.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-/** Only installed in store processes. Never writes PackageManager or MARs state. */
+/** Applied only within the framework-selected scope. Never writes PM or MARs state. */
 public final class StoreHook implements IXposedHookLoadPackage {
     private static final ThreadLocal<Boolean> RAW = ThreadLocal.withInitial(() -> false);
     private static final Set<String> READS = Set.of("getInstalledPackages", "getInstalledPackagesAsUser",
@@ -31,7 +31,10 @@ public final class StoreHook implements IXposedHookLoadPackage {
                 "frameworkLoaded", XC_MethodReplacement.returnConstant(true));
             return;
         }
-        if (!lp.packageName.equals("com.android.vending") && !lp.packageName.equals("com.sec.android.app.samsungapps")) return;
+        // Vector / LSPosed scope is the allowlist. Never change the policy owners' view.
+        if (Set.of("android", "com.android.systemui", "com.samsung.android.lool",
+            "com.samsung.android.sm", "com.samsung.android.sm_cn").contains(lp.packageName)
+            || lp.processName.equals("system_server")) return;
         // Samsung's private API is verified for this Android major version only.
         if (Build.VERSION.SDK_INT != 36 || !"samsung".equalsIgnoreCase(Build.MANUFACTURER)) return;
         process = lp.processName;
@@ -73,6 +76,21 @@ public final class StoreHook implements IXposedHookLoadPackage {
                         if (RAW.get() || p.hasThrowable()) return;
                         try { p.setResult(adapt(p.getResult())); }
                         catch (Throwable e) { XposedBridge.log("SleepStore: read unchanged: " + e); }
+                    }
+                });
+            } else if (name.equals("setApplicationEnabledSetting")) {
+                XposedBridge.hookMethod(method,new XC_MethodHook() {
+                    @Override protected void beforeHookedMethod(MethodHookParam p) {
+                        if(RAW.get() || p.args.length<3 || !(p.args[0] instanceof String)) return;
+                        int requested=(Integer)p.args[1];
+                        int user=p.args.length>=5 ? (Integer)p.args[3] : Process.myUid()/100000;
+                        if((requested==0 || requested==1) && deep((String)p.args[0],user)) {
+                            // Stores can explicitly enable packages after updating. Keep Samsung's
+                            // disabled-until-used state and attribution; launching from the launcher
+                            // is handled by Android outside this selected process.
+                            p.setResult(null);
+                            XposedBridge.log("SleepStore: preserved deep sleep after enable request in " + process);
+                        }
                     }
                 });
             } else if (name.equals("getApplicationEnabledSetting") || name.equals("isPackageAutoDisabled")) {

@@ -1,0 +1,18 @@
+[
+  {"label":"play_store","packages":["com.android.vending"]},
+  {"label":"galaxy_store","packages":["com.sec.android.app.samsungapps"]},
+  {"label":"aurora_store","packages":["com.aurora.store"]},
+  {"label":"obtainium","packages":["dev.imranr.obtainium","dev.imranr.obtainium.fdroid"]},
+  {"label":"fdroid","packages":["org.fdroid.fdroid","org.fdroid.basic"]},
+  {"label":"droidify","packages":["com.looker.droidify"]},
+  {"label":"neo_store","packages":["com.machiav3lli.fdroid"]},
+  {"label":"aptoide","packages":["cm.aptoide.pt"]},
+  {"label":"apkpure","packages":["com.apkpure.aegon"]},
+  {"label":"uptodown","packages":["com.uptodown"]},
+  {"label":"appgallery","packages":["com.huawei.appmarket"]},
+  {"label":"getapps","packages":["com.xiaomi.mipicks"]},
+  {"label":"taptap","packages":["com.taptap.global","com.taptap"]},
+  {"label":"rustore","packages":["ru.vk.store"]},
+  {"label":"amazon_appstore","packages":["com.amazon.venezia"]},
+  {"label":"apkmirror","packages":["com.apkmirror.helper.prod"]}
+]

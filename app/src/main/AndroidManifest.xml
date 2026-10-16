@@ -1,5 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <queries><package android:name="com.android.vending"/><package android:name="com.sec.android.app.samsungapps"/></queries>
+    <queries>
+        <package android:name="com.android.vending"/>
+        <package android:name="com.sec.android.app.samsungapps"/>
+        <package android:name="com.aurora.store"/>
+        <package android:name="dev.imranr.obtainium"/>
+        <package android:name="dev.imranr.obtainium.fdroid"/>
+        <package android:name="org.fdroid.fdroid"/>
+        <package android:name="org.fdroid.basic"/>
+        <package android:name="com.looker.droidify"/>
+        <package android:name="com.machiav3lli.fdroid"/>
+        <package android:name="cm.aptoide.pt"/>
+        <package android:name="com.apkpure.aegon"/>
+        <package android:name="com.uptodown"/>
+        <package android:name="com.huawei.appmarket"/>
+        <package android:name="com.xiaomi.mipicks"/>
+        <package android:name="com.taptap.global"/>
+        <package android:name="com.taptap"/>
+        <package android:name="ru.vk.store"/>
+        <package android:name="com.amazon.venezia"/>
+        <package android:name="com.apkmirror.helper.prod"/>
+    </queries>
     <application android:name=".SleepStoreApp" android:theme="@style/Theme.SleepStore" android:label="@string/app_name" android:icon="@drawable/ic_sleepstore" android:allowBackup="false" android:dataExtractionRules="@xml/backup_rules" android:supportsRtl="true" android:localeConfig="@xml/locales_config">
         <meta-data android:name="xposedmodule" android:value="true"/>
         <meta-data android:name="xposeddescription" android:resource="@string/module_description"/>
