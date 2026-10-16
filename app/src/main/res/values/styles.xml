@@ -1,0 +1,4 @@
+<resources>
+<style name="Theme.SleepStore" parent="Theme.Material3.DayNight.NoActionBar"><item name="android:fontFamily">sans</item><item name="android:windowLightStatusBar">?attr/isLightTheme</item><item name="android:windowActionModeOverlay">true</item></style>
+<string-array name="xposed_scope"><item>com.android.vending</item><item>com.sec.android.app.samsungapps</item><item>dev.ryuya.sleepstore</item></string-array>
+</resources>

@@ -1,0 +1,25 @@
+<resources>
+<string name="app_name">SleepStore</string>
+<string name="module_description">Show Samsung deep-sleeping apps to Play Store and Galaxy Store while preserving deep sleep.</string>
+<string name="protection_title">Deep sleep handling</string>
+<string name="protection_body">Only the two stores see Samsung auto-disabled apps as enabled. Background restrictions and your deep sleep list stay in place. Manually disabled apps keep their original state.</string>
+<string name="setup_title">Store integration</string>
+<string name="setup_body">Enable SleepStore in Vector / LSPosed, select Google Play Store and Galaxy Store, then restart both stores. No Runner step is needed. Android 16 with Samsung’s auto-disable API is required.</string>
+<string name="framework_active">Framework connected to this app</string>
+<string name="framework_inactive">Framework connection not detected</string>
+<string name="framework_hint">This indicator checks this app only. Store injection and update detection must be verified separately.</string>
+<string name="play_store">Google Play Store</string>
+<string name="galaxy_store">Galaxy Store</string>
+<string name="open_store">Open %1$s</string>
+<string name="not_installed">Not installed</string>
+<string name="language">Language</string>
+<string name="system_language">System default</string>
+<string name="about_title">About SleepStore</string>
+<string name="version">Version %1$s</string>
+<string name="source_code">Source code on GitHub</string>
+<string name="licenses">Open source licenses</string>
+<string name="close">Close</string>
+<string name="license_text">SleepStore © 2026 ryuya0124 — MIT License.\n\nMaterial Components for Android, AndroidX and the Xposed API — Apache License 2.0. The Xposed API is a compile-time dependency only.\n\nFull license texts and third party notices are included below and in the GitHub repository.</string>
+<string name="store_unavailable">The store could not be opened.</string>
+<string name="scope_notice">Scope: Play Store and Galaxy Store. No hooks in Android System or Device Care.</string>
+</resources>
