@@ -21,7 +21,7 @@
 <string name="source_code">GitHub でソースを見る</string>
 <string name="licenses">オープンソースライセンス</string>
 <string name="close">閉じる</string>
-<string name="license_text">SleepStore © 2026 ryuya0124 — MIT License。\n\nMaterial Components for Android、AndroidX、Xposed API — Apache License 2.0。Xposed API はコンパイル時のみ使用します。\n\nライセンス全文と第三者ライブラリの表記を以下と GitHub リポジトリに収録しています。</string>
+<string name="license_text">SleepStore © 2026 ryuya0124 — MIT License。\n\nMaterial Components、AndroidX、Kotlin、coroutines、Guava、Error Prone、JetBrains annotations、Xposed API — Apache License 2.0。Xposed API はコンパイル時のみ使用します。\n\nライセンス全文と第三者ライブラリの表記を以下と GitHub リポジトリに収録しています。</string>
 <string name="store_unavailable">ストアを開けませんでした。</string>
 <string name="scope_notice">Vector / LSPosed で他のアプリを選択した場合も、同じフックを適用します。Android システム・システム UI・デバイスケアは対象外です。</string>
 </resources>

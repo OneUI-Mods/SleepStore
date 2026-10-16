@@ -21,7 +21,7 @@
 <string name="source_code">Source code on GitHub</string>
 <string name="licenses">Open source licenses</string>
 <string name="close">Close</string>
-<string name="license_text">SleepStore © 2026 ryuya0124 — MIT License.\n\nMaterial Components for Android, AndroidX and the Xposed API — Apache License 2.0. The Xposed API is a compile-time dependency only.\n\nFull license texts and third party notices are included below and in the GitHub repository.</string>
+<string name="license_text">SleepStore © 2026 ryuya0124 — MIT License.\n\nMaterial Components, AndroidX, Kotlin, coroutines, Guava, Error Prone, JetBrains annotations and the Xposed API — Apache License 2.0. The Xposed API is a compile-time dependency only.\n\nFull license texts and third party notices are included below and in the GitHub repository.</string>
 <string name="store_unavailable">The store could not be opened.</string>
 <string name="scope_notice">The same hook applies to other apps you select in Vector / LSPosed. Android System, System UI and Device Care are excluded.</string>
 <string name="fdroid" translatable="false">F-Droid</string>
