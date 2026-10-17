@@ -15,7 +15,7 @@ Stores still control update availability, compatibility, rollout and installatio
 ## Requirements and setup
 
 - Samsung Android 16 (API 36) with the Samsung auto-disable API.
-- An active Xposed-compatible framework, tested with Vector 2.2 (3080).
+- An active modern Xposed API 102 framework, tested with Vector 2.2 (3080).
 - Install the APK, enable SleepStore, and select the apps you want to use. Recommended: **Google Play Store** (`com.android.vending`), **Galaxy Store** (`com.sec.android.app.samsungapps`), **Aurora Store** (`com.aurora.store`), and **Obtainium** (`dev.imranr.obtainium` or `dev.imranr.obtainium.fdroid`).
 - Selecting SleepStore itself enables its framework connection indicator. This indicator does not prove store scopes are configured.
 - Force-stop and reopen the selected apps, then check for updates. No Runner launch is required.
@@ -29,15 +29,16 @@ JDK 21, Android SDK 36, Gradle wrapper:
 
 ```sh
 ./gradlew assembleRelease testReleaseUnitTest lintRelease
+python3 tools/verify_modern_xposed.py
 ```
 
-GitHub Actions performs the same checks. Official Releases contain a release APK signed with a dedicated, persistent key. CI builds validate an unsigned release and publish reports; use Releases for installation.
+GitHub Actions performs the same checks. The module uses libxposed API 102's interceptor chain and modern `META-INF/xposed` metadata; no legacy API 82 classes or `assets/xposed_init` entry are packaged. Official Releases contain a release APK signed with a dedicated, persistent key. CI builds validate an unsigned release and publish reports; use Releases for installation.
 
 ## Validation
 
 Each selected app's startup runs read-only PackageManager checks and writes `files/sleepstore-diagnostics.json` in that app's private data directory. Framework logs tagged `SleepStore: CHECK` report deep-sleeping visibility, preserved disabled packages, and failures. No credentials or store account databases are read. Production behavior is scoped by the framework selection and Android version; unknown Samsung API results fail closed.
 
-On-device checks cover Play Store, Galaxy Store, Aurora Store and Obtainium (F-Droid build), ordinary disabled app preservation, and deep sleep visibility. Play Store automatically updated deep-sleeping apps during validation. DEFAULT and ENABLED requests from its main and background processes were then verified to be blocked while the raw OS state stayed disabled-until-used. Galaxy Store / Aurora / Obtainium server update offers and full installation cycles have not all been verified. Device evidence and internal notes are excluded from this repository.
+On-device checks cover Play Store, Galaxy Store, Aurora Store and Obtainium (F-Droid build), ordinary disabled app preservation, and deep sleep visibility. Play Store automatically updated deep-sleeping apps during validation. DEFAULT and ENABLED requests from its main and background processes were then verified to be blocked while the raw OS state stayed disabled-until-used. Galaxy Store / Aurora / Obtainium server update offers and full installation cycles have not all been verified. The public firmware and API 102 compatibility baseline is recorded in [docs/validation.md](docs/validation.md); private device evidence and internal notes are excluded.
 
 ## Disable / rollback
 

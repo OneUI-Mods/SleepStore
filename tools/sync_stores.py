@@ -7,8 +7,8 @@ packages=list(dict.fromkeys(p for e in entries for p in e['packages']))
 p=root/'app/src/main/AndroidManifest.xml'
 s=p.read_text();start=s.index('    <queries>');end=s.index('</queries>',start)+len('</queries>')
 s=s[:start]+'    <queries>\n'+''.join('        <package android:name="'+p+'"/>\n' for p in packages)+'    </queries>'+s[end:];p.write_text(s)
-p=root/'app/src/main/res/values/styles.xml';s=p.read_text();start=s.index('<string-array name="xposed_scope">');end=s.index('</string-array>',start)+len('</string-array>')
-s=s[:start]+'<string-array name="xposed_scope">'+''.join('<item>'+p+'</item>' for p in packages+['dev.ryuya.sleepstore'])+'</string-array>'+s[end:];p.write_text(s)
+(root/'app/src/main/resources/META-INF/xposed/scope.list').write_text(
+    '\n'.join(packages+['dev.ryuya.sleepstore'])+'\n')
 arrays=',\n        '.join('{'+','.join(json.dumps(p) for p in e['packages'])+'}' for e in entries)
 labels=','.join('R.string.'+e['label'] for e in entries)
 (root/'app/src/main/java/dev/ryuya/sleepstore/Targets.java').write_text('''package dev.ryuya.sleepstore;

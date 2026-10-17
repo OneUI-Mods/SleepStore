@@ -14,7 +14,7 @@ Vector / LSPosed で選択したアプリ内で取得する情報だけを変更
 
 ## 導入
 
-1. Samsung Android 16 と稼働中の Vector / LSPosed 互換環境を用意します。検証環境は Vector 2.2（3080）です。
+1. Samsung Android 16 と modern Xposed API 102 対応環境を用意します。検証環境は Vector 2.2（3080）です。
 2. APK をインストールし、フレームワークで SleepStore を有効にします。
 3. 対象に使用するアプリを選びます。推奨対象は Play ストア、Galaxy Store、Aurora Store、Obtainium（通常版／F-Droid 版）です。上記以外も Vector で選択すれば同じ処理が適用されます。本アプリも選択すると、UI 内でフレームワークとの接続を表示できます。
 4. 選択したアプリを強制終了して開き直し、更新を確認します。Runner の操作は不要です。
@@ -25,9 +25,9 @@ UI は Material 3、ライト／ダーク、自動配色、日本語／英語／
 
 ## 開発と管理
 
-JDK 21、Android SDK 36 を使用し、`./gradlew assembleRelease testReleaseUnitTest lintRelease` でビルド・単体テスト・Lint を実行します。GitHub Actions でも同じチェックを行い、検証レポートを保存します。インストール用には Releases の専用鍵で署名したリリース APK を使用してください。
+JDK 21、Android SDK 36 を使用し、`./gradlew assembleRelease testReleaseUnitTest lintRelease` でビルド・単体テスト・Lint を実行し、`python3 tools/verify_modern_xposed.py` でAPKの登録方式も検査します。フックは libxposed API 102 のインターセプタ方式と modern `META-INF/xposed` メタデータを使い、API 82 のクラスと `assets/xposed_init` は APK に含めません。GitHub Actions でも同じチェックを行い、検証レポートを保存します。インストール用には Releases の専用鍵で署名したリリース APK を使用してください。
 
-Play ストア・Galaxy Store・Aurora Store・Obtainium（F-Droid版）内での読み取りと通常の無効化の維持を実機で確認しました。Play ストアではディープスリープ中アプリの自動更新も確認しています。その後、通常／バックグラウンドの両プロセスから DEFAULT と ENABLED を要求しても、OS側の無効状態が維持されることを確認しました。全ストアのサーバー側更新検出とインストール完了までを検証したものではありません。端末情報と内部メモは公開リポジトリに含めません。
+Play ストア・Galaxy Store・Aurora Store・Obtainium（F-Droid版）内での読み取りと通常の無効化の維持を実機で確認しました。Play ストアではディープスリープ中アプリの自動更新も確認しています。その後、通常／バックグラウンドの両プロセスから DEFAULT と ENABLED を要求しても、OS側の無効状態が維持されることを確認しました。全ストアのサーバー側更新検出とインストール完了までを検証したものではありません。公開可能なファームウェアとAPI 102の検証基準は [docs/validation.md](docs/validation.md) に残し、端末固有情報と内部メモは公開しません。
 
 ## 元に戻す
 

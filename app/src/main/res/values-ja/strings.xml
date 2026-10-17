@@ -4,7 +4,7 @@
 <string name="protection_title">ディープスリープの扱い</string>
 <string name="protection_body">Samsung が自動無効化したアプリを、Vector / LSPosed で選択したアプリ内でだけ有効として扱います。バックグラウンド制限とディープスリープの一覧を維持し、手動で無効にしたアプリの状態は変えません。</string>
 <string name="setup_title">適用範囲と更新アプリ</string>
-<string name="setup_body">Vector / LSPosed で SleepStore を有効にし、使用するストア・更新アプリを選択して、それぞれを再起動してください。Runner の操作は不要です。Samsung の自動無効化 API に対応する Android 16 が必要です。</string>
+<string name="setup_body">modern Xposed API 102 対応の Vector / LSPosed で SleepStore を有効にし、使用するストア・更新アプリを選択して、それぞれを再起動してください。Runner の操作は不要です。Samsung の自動無効化 API に対応する Android 16 が必要です。</string>
 <string name="framework_active">このアプリとフレームワークが接続済み</string>
 <string name="framework_inactive">フレームワークとの接続を未検出</string>
 <string name="framework_hint">この表示は本アプリの接続状態です。各ストアへのフックと更新検出は別途確認が必要です。</string>

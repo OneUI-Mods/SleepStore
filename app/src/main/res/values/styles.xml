@@ -1,4 +1,3 @@
 <resources>
 <style name="Theme.SleepStore" parent="Theme.Material3.DayNight.NoActionBar"><item name="android:fontFamily">sans</item><item name="android:windowLightStatusBar">?attr/isLightTheme</item><item name="android:windowActionModeOverlay">true</item></style>
-<string-array name="xposed_scope"><item>com.android.vending</item><item>com.sec.android.app.samsungapps</item><item>com.aurora.store</item><item>dev.imranr.obtainium</item><item>dev.imranr.obtainium.fdroid</item><item>org.fdroid.fdroid</item><item>org.fdroid.basic</item><item>com.looker.droidify</item><item>com.machiav3lli.fdroid</item><item>cm.aptoide.pt</item><item>com.apkpure.aegon</item><item>com.uptodown</item><item>com.huawei.appmarket</item><item>com.xiaomi.mipicks</item><item>com.taptap.global</item><item>com.taptap</item><item>ru.vk.store</item><item>com.amazon.venezia</item><item>com.apkmirror.helper.prod</item><item>dev.ryuya.sleepstore</item></string-array>
 </resources>

@@ -4,7 +4,7 @@
 <string name="protection_title">Deep sleep handling</string>
 <string name="protection_body">Only apps selected in Vector / LSPosed see Samsung auto-disabled apps as enabled. Background restrictions and your deep sleep list stay in place. Manually disabled apps keep their original state.</string>
 <string name="setup_title">Scope and update apps</string>
-<string name="setup_body">Enable SleepStore in Vector / LSPosed, select the stores and updaters you use, then restart those apps. No Runner step is needed. Android 16 with Samsung’s auto-disable API is required.</string>
+<string name="setup_body">Enable SleepStore in a modern Xposed API 102 framework, select the stores and updaters you use, then restart those apps. No Runner step is needed. Android 16 with Samsung’s auto-disable API is required.</string>
 <string name="framework_active">Framework connected to this app</string>
 <string name="framework_inactive">Framework connection not detected</string>
 <string name="framework_hint">This indicator checks this app only. Injection into the selected apps and update detection must be verified separately.</string>

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- Migrated the complete hook entry and callback chain from legacy Xposed API 82 to libxposed API 102.
+- Replaced manifest and `assets/xposed_init` registration with modern `META-INF/xposed` metadata.
+- Kept the user-selectable framework scope while retaining the recommended store catalog.
+- Added protective interceptor handling and API/framework details to runtime diagnostics.
+
 ## 0.1.0
 
 - Shared PackageManager hooks for apps selected in Vector / LSPosed.

@@ -18,6 +18,7 @@ jobs:
       - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - uses: gradle/actions/setup-gradle@v4
       - run: ./gradlew assembleRelease testReleaseUnitTest lintRelease
+      - run: python3 tools/verify_modern_xposed.py
       - uses: actions/upload-artifact@v4
         with:
           name: release-validation-reports

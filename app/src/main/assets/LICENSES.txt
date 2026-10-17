@@ -28,7 +28,7 @@ SOFTWARE.
 - Kotlin standard library 1.8.22 and JetBrains annotations 13.0, Copyright JetBrains s.r.o. and contributors — Apache-2.0. https://github.com/JetBrains/kotlin
 - kotlinx.coroutines 1.6.4, Copyright JetBrains s.r.o. and contributors — Apache-2.0. https://github.com/Kotlin/kotlinx.coroutines
 - Guava ListenableFuture 1.0 and Error Prone annotations 2.15.0, Copyright Google Inc. — Apache-2.0. https://github.com/google/guava and https://github.com/google/error-prone
-- Xposed API 82, Copyright 2013 rovo89, Tungstwenty — Apache-2.0. https://github.com/rovo89/XposedBridge. Compile-only: not packaged in the application. Original notice: licenses/Xposed-NOTICE.txt.
+- libxposed API 102, Copyright libxposed contributors — Apache-2.0. https://github.com/JingMatrix/libxposed-api. Compile-only: not packaged in the application.
 - Gradle Wrapper, Copyright Gradle, Inc. — Apache-2.0. https://github.com/gradle/gradle
 - JUnit 4.13.2 — EPL-1.0; Hamcrest Core 1.3 — BSD-3-Clause. Test-only dependencies, not packaged in the application.
 
