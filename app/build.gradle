@@ -1,4 +1,7 @@
-plugins { id 'com.android.application' }
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
 def localSigning = rootProject.file('signing.properties')
 def keys = new Properties()
 if (localSigning.exists()) localSigning.withInputStream { keys.load(it) }
@@ -18,6 +21,7 @@ android {
     }
     buildTypes { release { if (localSigning.exists()) signingConfig signingConfigs.release } }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    kotlinOptions { jvmTarget = '17' }
     buildFeatures { buildConfig true }
     lint { abortOnError true }
 }
