@@ -4,7 +4,7 @@
 
 ## ソースとビルド
 
-Android SDKのコンパイル対象は36です。JDK・Gradle・依存関係の版は、リポジトリ内のGradle設定とwrapperを基準にしてください。
+Android SDKのコンパイル対象は37です。JDK・Gradle・依存関係の版は、リポジトリ内のGradle設定とwrapperを基準にしてください。
 
 ```sh
 ./gradlew :app:assembleRelease
