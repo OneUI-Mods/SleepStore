@@ -12,3 +12,5 @@
 Full Apache license text is in licenses/Apache-2.0.txt. SleepStore source code and original icon are licensed under the root MIT LICENSE. Reference APKs, decompiled firmware and device evidence are excluded from the repository.
 
 The complete resolved runtime artifact/version inventory for this release is in DEPENDENCIES.txt. All runtime dependencies above use Apache-2.0. Test-only libraries use the separately included EPL-1.0 and BSD license texts.
+
+- libxposed Service and Interface 102.0.0, Copyright libxposed contributors — Apache-2.0. https://github.com/JingMatrix/libxposed-service. Bundled for the app-side framework connection.

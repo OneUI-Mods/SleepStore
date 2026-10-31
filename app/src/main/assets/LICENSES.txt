@@ -579,3 +579,5 @@ The Apache Software Foundation (http://www.apache.org/).
 This product includes software from the Spring Framework,
 under the Apache License 2.0 (see: StringUtils.containsWhitespace())
 -------------------------------------------------------------------------
+
+- libxposed Service and Interface 102.0.0, Copyright libxposed contributors — Apache-2.0. https://github.com/JingMatrix/libxposed-service. Bundled for the app-side framework connection.
