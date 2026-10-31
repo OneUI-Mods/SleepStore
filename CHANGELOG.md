@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 — 2026-10-31
+
+- API 102フレームワークとのアプリ側接続が成立せず再試行される問題を修正。
+- 設定を引き継いで上書きし、設定アプリを開き直してください。ソフトリブートは不要です。
+
 ## 0.2.0
 
 - Migrated the complete hook entry and callback chain from legacy Xposed API 82 to libxposed API 102.

@@ -19,7 +19,9 @@ for path in legacy_files:
     if path.exists():
         raise SystemExit(f"Legacy Xposed file remains: {path.relative_to(root)}")
 
-sources = list((root / "app/src/main/java").rglob("*.java"))
+sources = list((root / "app/src/main").rglob("*.kt"))
+if not sources:
+    raise SystemExit("Android Kotlin sources are missing")
 for path in sources:
     text = path.read_text()
     for marker in ("de.robv.android.xposed", "IXposedHookLoadPackage", "XposedBridge"):
