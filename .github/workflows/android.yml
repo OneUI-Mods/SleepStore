@@ -19,7 +19,3 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - run: ./gradlew assembleRelease testReleaseUnitTest lintRelease
       - run: python3 tools/verify_modern_xposed.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: release-validation-reports
-          path: app/build/reports/
