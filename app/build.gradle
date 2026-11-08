@@ -8,7 +8,7 @@ if (localSigning.exists()) localSigning.withInputStream { keys.load(it) }
 android {
     namespace 'dev.ryuya.sleepstore'
     compileSdk 37
-    defaultConfig { applicationId 'dev.ryuya.sleepstore'; minSdk 35; targetSdk 36; versionCode 3; versionName '0.2.1' }
+    defaultConfig { applicationId 'dev.ryuya.sleepstore'; minSdk 35; targetSdk 36; versionCode 4; versionName '0.2.2' }
     signingConfigs {
         release {
             if (localSigning.exists()) {
