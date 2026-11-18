@@ -1,6 +1,6 @@
 # 配布手順
 
-JDK 21、Android SDK／Build Tools 37.0.0を使用します。compileSdkは37、targetSdkは36の既存設定を維持します。署名済みrelease APKだけを配布し、debug・検証用Activityを含むAPKは配布しません。
+JDK 27、Android SDK／Build Tools 37.0.0を使用します。compileSdkは37、targetSdkは36の既存設定を維持します。署名済みrelease APKだけを配布し、debug・検証用Activityを含むAPKは配布しません。
 
 既存の非公開signing.propertiesと同じ配布鍵を使います。鍵・パスワードをGit、ログ、ソースZIPへ含めません。
 
