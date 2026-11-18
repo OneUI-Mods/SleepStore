@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             integration,
             getString(
                 if (MainActivity.frameworkLoaded()) R.string.framework_active
-                else R.string.framework_inactive
+                else R.string.framework_inactive,
             ),
             16,
             true,
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                 this,
                 com.google.android.material.R.attr.colorSurfaceContainer,
                 javaClass.getName(),
-            )
+            ),
         )
         val p = LayoutParams(-1, -2)
         p.bottomMargin = dp(16)
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                 this,
                 com.google.android.material.R.attr.colorOnSurface,
                 javaClass.getName(),
-            )
+            ),
         )
         val p = LayoutParams(-1, -2)
         p.bottomMargin = dp(bottom)
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         val primary =
             MaterialColors.getColor(
                 this,
-                com.google.android.material.R.attr.colorPrimary,
+                androidx.appcompat.R.attr.colorPrimary,
                 javaClass.getName(),
             )
         val background =
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                 ColorUtils.calculateContrast(primary or -0x1000000, background or -0x1000000) >= 4.5
             )
                 primary
-            else foreground
+            else foreground,
         )
         val p = LayoutParams(-1, -2)
         p.bottomMargin = dp(8)
@@ -211,8 +211,9 @@ class MainActivity : AppCompatActivity() {
         val tags = arrayOf<String?>("", "ja", "en")
         val current =
             getSystemService<LocaleManager?>(LocaleManager::class.java)
-                .getApplicationLocales()
-                .toLanguageTags()
+                ?.getApplicationLocales()
+                ?.toLanguageTags()
+                .orEmpty()
         var selected: Int = 0
         for (i in tags.indices) if (tags[i] == current) selected = i
         MaterialAlertDialogBuilder(this)
@@ -224,7 +225,7 @@ class MainActivity : AppCompatActivity() {
                     dialog: DialogInterface?,
                     index: Int ->
                     getSystemService<LocaleManager?>(LocaleManager::class.java)
-                        .setApplicationLocales(LocaleList.forLanguageTags(tags[index]))
+                        ?.setApplicationLocales(LocaleList.forLanguageTags(tags[index]))
                     dialog!!.dismiss()
                 },
             )

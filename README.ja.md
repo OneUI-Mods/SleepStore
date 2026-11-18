@@ -24,3 +24,5 @@ OSのディープスリープ状態を書き換えません。無効にする場
 [開発者向けガイド](docs/development.md)、[MIT License](LICENSE)、[第三者ライセンス](THIRD_PARTY_NOTICES.md)を参照してください。
 
 [OneUI Modsのアプリ一覧](https://github.com/OneUI-Mods)
+
+[Build environment / ビルド環境](docs/build-environment.md)

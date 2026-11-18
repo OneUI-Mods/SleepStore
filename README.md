@@ -24,3 +24,5 @@ SleepStore does not write the OS deep-sleep state. Disable the module and restar
 Build instructions, implementation details and validation records are in the [developer guide](docs/development.md). The project uses the [MIT License](LICENSE); dependencies are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the app.
 
 [OneUI Mods](https://github.com/OneUI-Mods)
+
+[Build environment / ビルド環境](docs/build-environment.md)

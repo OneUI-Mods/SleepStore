@@ -1,13 +1,14 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 def localSigning = rootProject.file('signing.properties')
 def keys = new Properties()
 if (localSigning.exists()) localSigning.withInputStream { keys.load(it) }
 android {
     namespace 'dev.ryuya.sleepstore'
-    compileSdk 37
+    compileSdk {
+        version = release(37) { minorApiLevel = 2 }
+    }
     defaultConfig { applicationId 'dev.ryuya.sleepstore'; minSdk 35; targetSdk 36; versionCode 4; versionName '0.2.2' }
     signingConfigs {
         release {
@@ -21,7 +22,6 @@ android {
     }
     buildTypes { release { if (localSigning.exists()) signingConfig signingConfigs.release } }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
-    kotlinOptions { jvmTarget = '17' }
     buildFeatures { buildConfig true }
     lint { abortOnError true }
 }
@@ -29,6 +29,8 @@ dependencies {
     implementation 'io.github.libxposed:service:102.0.0'
 
     compileOnly 'io.github.libxposed:api:102.0.0'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.android.material:material:1.14.0'
     testImplementation 'junit:junit:4.13.2'
 }
+
+kotlin { compilerOptions { jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17 } }
