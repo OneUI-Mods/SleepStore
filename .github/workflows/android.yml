@@ -17,5 +17,5 @@ jobs:
           log-accepted-android-sdk-licenses: false
       - run: sdkmanager 'platforms;android-37.2' 'build-tools;37.0.0'
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew assembleRelease testReleaseUnitTest lintRelease
+      - run: ./gradlew :app:assembleRelease :app:testDebugUnitTest :app:lintRelease
       - run: python3 tools/verify_modern_xposed.py
