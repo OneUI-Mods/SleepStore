@@ -11,7 +11,7 @@ expected = {
     "targetApiVersion": "102",
     "staticScope": "false",
     "exceptionMode": "protective",
-    "autoHotReload": "false",
+    "autoHotReload": "true",
 }
 
 legacy_files = [root / "app/libs/xposed-api-82.jar", root / "app/src/main/assets/xposed_init"]

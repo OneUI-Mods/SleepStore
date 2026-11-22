@@ -8,6 +8,8 @@ import android.os.Build
 import android.os.Parcel
 import android.os.Process
 import io.github.libxposed.api.XposedModule
+import io.github.libxposed.api.XposedModuleInterface.HotReloadedParam
+import io.github.libxposed.api.XposedModuleInterface.HotReloadingParam
 import io.github.libxposed.api.XposedModuleInterface.ModuleLoadedParam
 import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import java.lang.Boolean as JavaBoolean
@@ -29,6 +31,10 @@ class StoreHook : XposedModule() {
     private var rawState: Method? = null
     private var rawAuto: Method? = null
     private var process: String? = null
+    private var hostPackage: String? = null
+    private var hostLoader: ClassLoader? = null
+    private var diagnostic: Thread? = null
+    private var retiring = false
 
     override fun onModuleLoaded(param: ModuleLoadedParam) {
         ModernHook.attach(this)
@@ -45,13 +51,38 @@ class StoreHook : XposedModule() {
 
     override fun onPackageReady(param: PackageReadyParam) {
         if (!param.isFirstPackage()) return
-        val pkg = param.getPackageName()
+        installForPackage(param.getPackageName(), param.getClassLoader(), coldStart = true)
+    }
+
+    @Synchronized
+    override fun onHotReloading(param: HotReloadingParam): Boolean {
+        val pkg = hostPackage ?: return false
+        val loader = hostLoader ?: return false
+        if (diagnostic?.isAlive == true) return false
+        param.setSavedInstanceState(arrayOf(pkg, loader))
+        retiring = true
+        return true
+    }
+
+    override fun onHotReloaded(param: HotReloadedParam) {
+        onModuleLoaded(param)
+        val state = param.savedInstanceState as? Array<*> ?: return
+        val pkg = state.getOrNull(0) as? String ?: return
+        val loader = state.getOrNull(1) as? ClassLoader ?: return
+        if (!installForPackage(pkg, loader, coldStart = false)) return
+        param.oldHookHandles.forEach { it.unhook() }
+        ModernHook.log("ONEUI_MODS_HOT_RELOAD package=${BuildConfig.APPLICATION_ID} version=${BuildConfig.VERSION_CODE} pid=${Process.myPid()}")
+    }
+
+    private fun installForPackage(pkg: String, loader: ClassLoader, coldStart: Boolean): Boolean {
         if (BuildConfig.APPLICATION_ID.equals(pkg)) {
-            installFrameworkIndicator(param.getClassLoader())
-            return
+            if (!installFrameworkIndicator(loader)) return false
+            hostPackage = pkg
+            hostLoader = loader
+            return true
         }
         // Vector / LSPosed scope is the allowlist. Never change policy owners' view.
-        if (StoreHook.EXCLUDED!!.contains(pkg) || "system_server" == process) return
+        if (StoreHook.EXCLUDED!!.contains(pkg) || "system_server" == process) return false
         // Samsung's private API is verified for this Android major version only.
         if (
             Build.VERSION.SDK_INT != 36 || !"samsung".equals(Build.MANUFACTURER, ignoreCase = true)
@@ -64,7 +95,7 @@ class StoreHook : XposedModule() {
                     " manufacturer=" +
                     Build.MANUFACTURER)
             )
-            return
+            return false
         }
         try {
             val globals = ModernHook.findClass("android.app.AppGlobals", null)
@@ -90,7 +121,7 @@ class StoreHook : XposedModule() {
             ModernHook.log(
                 "HOOK_READY package=" + pkg + " process=" + process + " methods=" + hooked.size
             )
-            hooks.add(
+            if (coldStart) hooks.add(
                 ModernHook.findAndHookMethod(
                     Application::class.java,
                     "attach",
@@ -99,20 +130,30 @@ class StoreHook : XposedModule() {
                         override fun afterHookedMethod(p: ModernHook.Param) {
                             if (p.hasThrowable()) return
                             val context: Context? = p.args[0] as Context?
-                            Thread(Runnable { diagnose(context!!) }, "SleepStore-check").start()
+                            if (context != null) startDiagnostic(context)
                         }
                     },
                 )
             )
+            hostPackage = pkg
+            hostLoader = loader
+            return true
         } catch (e: Throwable) {
             // A changed or inaccessible Samsung contract leaves the host untouched.
             ModernHook.log("HOST_DISABLED package=" + pkg + " reason=" + e)
             unhookAll()
+            return false
         }
     }
 
-    private fun installFrameworkIndicator(loader: ClassLoader?) {
-        try {
+    @Synchronized
+    private fun startDiagnostic(context: Context) {
+        if (retiring || diagnostic?.isAlive == true) return
+        diagnostic = Thread({ diagnose(context) }, "SleepStore-check").also { it.start() }
+    }
+
+    private fun installFrameworkIndicator(loader: ClassLoader?): Boolean {
+        return try {
             val activity = ModernHook.findClass(MainActivity::class.java.getName(), loader)
             hooks.add(
                 ModernHook.findAndHookMethod(
@@ -126,8 +167,10 @@ class StoreHook : XposedModule() {
                 )
             )
             ModernHook.log("UI_INDICATOR_READY")
+            true
         } catch (e: Throwable) {
             ModernHook.log("UI_INDICATOR_DISABLED " + e)
+            false
         }
     }
 

@@ -47,6 +47,7 @@ object ModernHook {
         val handle =
             requireModule()
                 .hook(executable)
+                .setId("sleepstore")
                 .setExceptionMode(XposedInterface.ExceptionMode.PROTECTIVE)
                 .intercept { chain ->
                     val param = Param(chain)
