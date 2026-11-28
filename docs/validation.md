@@ -2,6 +2,12 @@
 
 This file records the firmware and framework used for public release checks so later OS updates do not erase the compatibility baseline. It contains no device serial, account, application database, or firmware binaries.
 
+## 2026-11-28 — SleepStore 0.2.8
+
+On the Galaxy S26 Ultra with Android 17 (BZI9) and Vector 3119, SleepStore hot-reloaded in Galaxy Store and the repair controls appeared in the app. A root scan found no repair candidates in the personal or work profile.
+
+A disposable package was added to deep sleep through Samsung Device Care and then updated in a controlled install session that reproduced the state reset. The repair found only that package, restored Samsung's automatic disabled state, and returned no candidates on the next scan. The disposable package was then removed. This verifies the repair path. The store-side preservation hook was loaded on the device, and its effect on a subsequent production store update remains to be verified.
+
 ## 2026-11-28 — SleepStore 0.2.6
 
 On a Galaxy S26 Ultra (SM-S948Q) with Android 17 (BZI9) and Vector 3119, the settings screen reported a connected framework after upgrading from 0.2.4 to 0.2.5. The Android 17 store processes required reopening once because 0.2.4 had skipped their hook setup.

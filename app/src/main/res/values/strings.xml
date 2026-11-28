@@ -2,6 +2,14 @@
 <string name="app_name">SleepStore</string>
 <string name="module_description">Keep Samsung deep-sleeping apps visible inside the apps selected in Vector / LSPosed.</string>
 <string name="protection_title">Deep sleep handling</string>
+<string name="repair_title">Repair deep sleep</string>
+<string name="repair_description">Check for idle apps that are still in deep sleep but were re-enabled by a store update. Requires root. Review the results before anything changes.</string>
+<string name="repair_scan">Check for affected apps</string>
+<string name="repair_none">No apps matching the repair criteria were found.</string>
+<string name="repair_found">Apps to repair (%1$d)</string>
+<string name="repair_apply">Restore disabled state</string>
+<string name="repair_result">Repaired: %1$d\nSkipped after rechecking: %2$d\nFailed: %3$d</string>
+<string name="repair_unavailable">Could not check deep sleep. Check SleepStore’s root permission and try again.</string>
 <string name="protection_body">Only apps selected in Vector / LSPosed see Samsung auto-disabled apps as enabled. Background restrictions and your deep sleep list stay in place. Manually disabled apps keep their original state.</string>
 <string name="setup_title">Scope and update apps</string>
 <string name="setup_body">Enable SleepStore in a modern Xposed API 102 framework, select the stores and updaters you use, then restart those apps. No Runner step is needed. Samsung Android 16 or 17 with the auto-disable API is required.</string>

@@ -2,6 +2,14 @@
 <string name="app_name">SleepStore</string>
 <string name="module_description">Vector / LSPosed で選択したアプリ内で、ディープスリープ中のアプリを有効として扱います。</string>
 <string name="protection_title">ディープスリープの扱い</string>
+<string name="repair_title">ディープスリープを修復</string>
+<string name="repair_description">ディープスリープの設定が残っているのに、ストア更新で有効になったアプリを探します。root権限が必要です。対象を確認してから修復できます。</string>
+<string name="repair_scan">修復対象を確認</string>
+<string name="repair_none">修復対象の条件に当てはまるアプリはありませんでした。</string>
+<string name="repair_found">修復対象のアプリ（%1$d件）</string>
+<string name="repair_apply">無効状態に戻す</string>
+<string name="repair_result">修復 %1$d件\n再確認で対象外 %2$d件\n失敗 %3$d件</string>
+<string name="repair_unavailable">ディープスリープを確認できませんでした。SleepStoreのroot権限を確認してから再試行してください。</string>
 <string name="protection_body">Samsung が自動無効化したアプリを、Vector / LSPosed で選択したアプリ内でだけ有効として扱います。バックグラウンド制限とディープスリープの一覧を維持し、手動で無効にしたアプリの状態は変えません。</string>
 <string name="setup_title">適用範囲と更新アプリ</string>
 <string name="setup_body">modern Xposed API 102 対応の Vector / LSPosed で SleepStore を有効にし、使用するストア・更新アプリを選択して、それぞれを再起動してください。Runner の操作は不要です。Samsung の自動無効化 API を搭載した Android 16 または 17 が必要です。</string>

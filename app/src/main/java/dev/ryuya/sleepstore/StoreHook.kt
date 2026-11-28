@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageInstaller
 import android.os.Build
 import android.os.Parcel
 import android.os.Process
@@ -127,6 +128,7 @@ class StoreHook : XposedModule() {
                     )
             install(ModernHook.findClass("android.app.ApplicationPackageManager", null))
             install(remote!!.javaClass)
+            installSessionStatePreservation(pkg)
             ModernHook.log(
                 "HOOK_READY package=" + pkg + " process=" + process + " methods=" + hooked.size
             )
@@ -152,6 +154,43 @@ class StoreHook : XposedModule() {
             ModernHook.log("HOST_DISABLED package=" + pkg + " reason=" + e)
             unhookAll()
             return false
+        }
+    }
+
+    private fun installSessionStatePreservation(hostPackage: String) {
+        try {
+            val installer = ModernHook.findClass("android.content.pm.IPackageInstaller\$Stub\$Proxy", null)
+            val params = PackageInstaller.SessionParams::class.java
+            val packageName = params.getField("appPackageName")
+            val persistSetting = params.getField("applicationEnabledSettingPersistent")
+            val copy = params.getMethod("copy")
+            hooks.add(
+                ModernHook.findAndHookMethod(
+                    installer,
+                    "createSession",
+                    params,
+                    String::class.java,
+                    String::class.java,
+                    Int::class.javaPrimitiveType,
+                    object : ModernHook.Callback() {
+                        override fun beforeHookedMethod(param: ModernHook.Param) {
+                            val original = param.args[0] as? PackageInstaller.SessionParams ?: return
+                            val target = packageName.get(original) as? String ?: return
+                            if (target.isEmpty() || persistSetting.getBoolean(original)) return
+                            val user = param.args[3] as? Int ?: return
+                            if (!deep(target, user)) return
+
+                            val session = copy.invoke(original) as PackageInstaller.SessionParams
+                            session.setApplicationEnabledSettingPersistent()
+                            param.args[0] = session
+                            ModernHook.log("UPDATE_KEEP_DISABLED package=$target user=$user host=$hostPackage")
+                        }
+                    },
+                ),
+            )
+            ModernHook.log("SESSION_STATE_PRESERVATION_READY package=$hostPackage")
+        } catch (error: Exception) {
+            ModernHook.log("SESSION_STATE_PRESERVATION_UNAVAILABLE package=$hostPackage reason=$error")
         }
     }
 

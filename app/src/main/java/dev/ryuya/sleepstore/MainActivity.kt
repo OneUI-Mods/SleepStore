@@ -28,9 +28,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import kotlin.math.round
+import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
     private var content: LinearLayout? = null
+    private var repairBusy = false
+    private val repairWorker by lazy { BackgroundExecutors.serial("SleepStore-repair", daemon = true) }
 
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -65,6 +68,12 @@ class MainActivity : AppCompatActivity() {
         val protection = card()
         text(protection, getString(R.string.protection_title), 20, true, 8)
         text(protection, getString(R.string.protection_body), 16, false, 0)
+        if (DeepSleepRepair.supported) {
+            val repair = card()
+            text(repair, getString(R.string.repair_title), 20, true, 8)
+            text(repair, getString(R.string.repair_description), 16, false, 8)
+            button(repair, getString(R.string.repair_scan), Runnable { checkDeepSleep() })
+        }
         val integration = card()
         text(integration, getString(R.string.setup_title), 20, true, 8)
         text(
@@ -95,6 +104,56 @@ class MainActivity : AppCompatActivity() {
         )
         button(about, getString(R.string.licenses), Runnable { this.licenses() })
     }
+
+    private fun checkDeepSleep(packages: List<String>? = null) {
+        if (repairBusy) return
+        repairBusy = true
+        repairWorker.execute {
+            val result = runCatching { DeepSleepRepair.run(applicationContext, packages) }
+            runOnUiThread {
+                repairBusy = false
+                if (isFinishing || isDestroyed) return@runOnUiThread
+                val response = result.getOrElse {
+                    MaterialAlertDialogBuilder(this)
+                        .setMessage(R.string.repair_unavailable)
+                        .setPositiveButton(R.string.close, null)
+                        .show()
+                    return@runOnUiThread
+                }
+                if (packages == null) {
+                    val candidates = response.getJSONArray("packages").strings()
+                    if (candidates.isEmpty()) {
+                        MaterialAlertDialogBuilder(this).setMessage(R.string.repair_none)
+                            .setPositiveButton(R.string.close, null).show()
+                    } else {
+                        MaterialAlertDialogBuilder(this)
+                            .setTitle(getString(R.string.repair_found, candidates.size))
+                            .setItems(candidates.map { packageLabel(it) }.toTypedArray(), null)
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(R.string.repair_apply) { _, _ -> checkDeepSleep(candidates) }
+                            .show()
+                    }
+                } else {
+                    val repaired = response.getJSONArray("repaired").length()
+                    val skipped = response.getInt("skipped")
+                    val failed = response.getJSONArray("failed").length()
+                    MaterialAlertDialogBuilder(this)
+                        .setMessage(getString(R.string.repair_result, repaired, skipped, failed))
+                        .setPositiveButton(R.string.close, null)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun JSONArray.strings(): List<String> = List(length()) { getString(it) }
+
+    private fun packageLabel(name: String): String =
+        try {
+            packageManager.getApplicationLabel(packageManager.getApplicationInfo(name, 0)).toString()
+        } catch (_: android.content.pm.PackageManager.NameNotFoundException) {
+            name
+        }
 
     private fun card(): LinearLayout {
         val card = MaterialCardView(this)

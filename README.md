@@ -33,6 +33,10 @@ Select **SleepStore** itself in the scope if you want to see the connection stat
 
 These steps work without restarting the phone. Each store still decides which updates to offer and install based on its compatibility rules and rollout schedule. Android system, SystemUI, and Device Care retain their stock behavior.
 
+## Repair deep sleep
+
+On Galaxy devices running Android 17, **Repair deep sleep → Check for affected apps** finds apps whose disabled state was reset after an update from Google Play Store or Galaxy Store. The check uses root and covers the current profile. After you review and confirm the list, SleepStore restores the disabled state of affected apps that are stopped.
+
 ## Development and license
 
 [Developer guide](docs/development.md) · [Build environment](docs/build-environment.md) · [Changelog](CHANGELOG.md)

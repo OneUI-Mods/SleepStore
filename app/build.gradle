@@ -9,7 +9,7 @@ android {
     compileSdk {
         version = release(37) { minorApiLevel = 2 }
     }
-    defaultConfig { applicationId 'dev.ryuya.sleepstore'; minSdk 35; targetSdk 36; versionCode 8; versionName '0.2.6' }
+    defaultConfig { applicationId 'dev.ryuya.sleepstore'; minSdk 35; targetSdk 36; versionCode 10; versionName '0.2.8' }
     signingConfigs {
         release {
             if (localSigning.exists()) {
