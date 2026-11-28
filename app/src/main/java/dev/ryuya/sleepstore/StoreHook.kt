@@ -72,6 +72,15 @@ class StoreHook : XposedModule() {
         if (!installForPackage(pkg, loader, coldStart = false)) return
         param.oldHookHandles.forEach { it.unhook() }
         ModernHook.log("ONEUI_MODS_HOT_RELOAD package=${BuildConfig.APPLICATION_ID} version=${BuildConfig.VERSION_CODE} pid=${Process.myPid()}")
+        if (process == pkg && pkg != BuildConfig.APPLICATION_ID) {
+            // Application.attach has already run. Only the main process writes the new check.
+            val application = runCatching {
+                ModernHook.findClass("android.app.AppGlobals", null)
+                    .getMethod("getInitialApplication")
+                    .invoke(null) as? Application
+            }.onFailure { ModernHook.log("CHECK_ERROR package=$pkg reason=$it") }.getOrNull()
+            if (application != null && application.packageName == pkg) startDiagnostic(application)
+        }
     }
 
     private fun installForPackage(pkg: String, loader: ClassLoader, coldStart: Boolean): Boolean {
@@ -83,9 +92,9 @@ class StoreHook : XposedModule() {
         }
         // Vector / LSPosed scope is the allowlist. Never change policy owners' view.
         if (StoreHook.EXCLUDED!!.contains(pkg) || "system_server" == process) return false
-        // Samsung's private API is verified for this Android major version only.
+        // Require the known Android versions and resolve the Samsung methods before installing hooks.
         if (
-            Build.VERSION.SDK_INT != 36 || !"samsung".equals(Build.MANUFACTURER, ignoreCase = true)
+            Build.VERSION.SDK_INT !in 36..37 || !"samsung".equals(Build.MANUFACTURER, ignoreCase = true)
         ) {
             ModernHook.log(
                 ("UNSUPPORTED package=" +
@@ -154,18 +163,9 @@ class StoreHook : XposedModule() {
 
     private fun installFrameworkIndicator(loader: ClassLoader?): Boolean {
         return try {
-            val activity = ModernHook.findClass(MainActivity::class.java.getName(), loader)
-            hooks.add(
-                ModernHook.findAndHookMethod(
-                    activity,
-                    "frameworkLoaded",
-                    object : ModernHook.Callback() {
-                        override fun beforeHookedMethod(p: ModernHook.Param) {
-                            p.setResult(JavaBoolean.TRUE)
-                        }
-                    },
-                )
-            )
+            // Vector loads module code separately from the settings app's classes.
+            val activity = ModernHook.findClass(MainActivity::class.java.name, loader)
+            activity.getField("frameworkInjected").setBoolean(null, true)
             ModernHook.log("UI_INDICATOR_READY")
             true
         } catch (e: Throwable) {

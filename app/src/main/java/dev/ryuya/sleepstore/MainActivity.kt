@@ -27,7 +27,6 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import kotlin.jvm.JvmStatic
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         text(
             integration,
             getString(
-                if (MainActivity.frameworkLoaded()) R.string.framework_active
+                if (frameworkInjected) R.string.framework_active
                 else R.string.framework_inactive,
             ),
             16,
@@ -261,9 +260,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val SOURCE: String = "https://github.com/ryuya0124/SleepStore"
 
-        @JvmStatic
-        fun frameworkLoaded(): Boolean {
-            return false
-        }
+        @JvmField @Volatile
+        var frameworkInjected: Boolean = false
     }
 }

@@ -11,7 +11,7 @@ SleepStore makes Samsung deep-sleeping apps visible to selected app stores witho
 3. Select the stores you use, such as Google Play Store, Galaxy Store, Aurora Store or Obtainium.
 4. Force-stop and reopen those stores, then check for updates.
 
-The verified baseline is Samsung Android 16 with its auto-disable API. Android System, SystemUI and Device Care are excluded. Set up each Android profile separately. Selecting SleepStore itself only enables its connection indicator; it does not configure the store scopes.
+The store hook requires Samsung Android 16 or 17 with the auto-disable API. Android System, SystemUI and Device Care are excluded. Set up each Android profile separately. Selecting SleepStore itself only enables its connection indicator; it does not configure the store scopes.
 
 ## Limits and disabling
 

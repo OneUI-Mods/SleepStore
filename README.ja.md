@@ -11,7 +11,7 @@
 3. 使用するストアを対象に選びます。Google Play、Galaxy Store、Aurora Store、Obtainiumなどを選択できます。
 4. ストアを強制停止して開き直し、更新を確認します。
 
-確認済みの基準はSamsungの自動無効化APIを持つAndroid 16です。Androidシステム、SystemUI、デバイスケアは対象外です。プロファイルごとに設定してください。SleepStore自身の選択は接続表示用で、ストアの対象設定を代わりに行うものではありません。
+ストアへのフックには、Samsungの自動無効化APIを搭載したAndroid 16または17が必要です。Androidシステム、SystemUI、デバイスケアは対象外です。プロファイルごとに設定してください。SleepStore自身の選択は接続表示用で、ストアの対象設定を代わりに行うものではありません。
 
 ## 制限・停止
 
